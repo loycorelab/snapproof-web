@@ -160,29 +160,27 @@
 
     // 1. แกะค่าพารามิเตอร์ทั้งหมดรวมถึง signature จาก URL
     const urlParams = new URLSearchParams(window.location.search);
-    const text = urlParams.get('text') || "";
-    const date = urlParams.get('date') || "";
-    const time = urlParams.get('time') || "";
-    const signature = urlParams.get('signature') || "";
+    const text = urlParams.get('t') || "";
+    const date = urlParams.get('d') || "";
+    const time = urlParams.get('m') || "";
+    const signature = urlParams.get('s') || "";
 
     // 2. ตรวจสอบความถูกต้องของข้อมูล
     if (text && date && time && signature) {
-        // นำค่าที่ดึงได้มาต่อกันแล้วผสมกุญแจลับเพื่อคำนวณรหัสตรวจสอบใหม่
         const combinedData = text + date + time + SECRET_KEY;
         const hashedData = CryptoJS.SHA256(combinedData).toString();
 
-        // เช็กถ้ารหัสตรงกันเป๊ะ แปลว่าเป็นลิงก์แท้ที่มาจากแอป
         if (hashedData === signature) {
+            // ✅ รหัสตรงกัน = ของแท้
             document.getElementById('view-text').innerText = text;
             document.getElementById('view-date').innerText = date;
             document.getElementById('view-time').innerText = time;
             document.getElementById('status-ok').style.display = "inline-flex";
         } else {
-            // ถ้ารหัสไม่ตรง แสดงว่าโดนเปลี่ยนตัวหนังสือใน URL กลางทาง
+            // ❌ รหัสไม่ตรง = โดนแอบแก้ URL
             showValidationError();
         }
     } else {
-        // หากขาดพารามิเตอร์ตัวใดตัวหนึ่งไป ให้ตีเป็นลิงก์ไม่สมบูรณ์/โดนดัดแปลงทันที
         showValidationError();
     }
 
@@ -193,7 +191,6 @@
         document.getElementById('main-content').style.display = "none";
     }
 
-    // ตั้งค่าพฤติกรรมปุ่มฝั่ง iOS
     document.getElementById('ios-btn').onclick = function() {
         alert("Verification system works on all devices. Full iOS app is coming soon.");
         return false;
