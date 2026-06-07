@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SnapProof - ตรวจสอบภาพถ่ายสด</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        .badge {
+            background-color: #e6f7ed;
+            color: #1f874c;
+            padding: 10px 16px;
+            border-radius: 50px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 25px;
+        }
+        .info-card {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: left;
+            margin-bottom: 25px;
+        }
+        .info-item { margin-bottom: 12px; }
+        .label { font-weight: bold; color: #64748b; }
+        .value { color: #0f172a; font-weight: 500; float: right; }
+        .btn {
+            display: block;
+            background-color: #0f172a;
+            color: white;
+            text-decoration: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="badge">🟢 ตรวจสอบแล้ว: ภาพถ่ายสดจากกล้องจริง</div>
+    
+    <div class="info-card">
+        <div class="info-item"><span class="label">ข้อความลายน้ำ:</span> <span class="value" id="view-text">Loading...</span></div>
+        <div class="info-item"><span class="label">วันที่ถ่ายสด:</span> <span class="value" id="view-date">Loading...</span></div>
+        <div class="info-item"><span class="label">เวลาที่ถ่ายสด:</span> <span class="value" id="view-time">Loading...</span></div>
+    </div>
+
+    <a href="#" id="download-btn" class="btn">ดาวน์โหลดแอป SnapProof</a>
+</div>
+
+<script>
+    // ดึงค่าตัวแปรจาก URL ล็อกชื่อตามที่ตกลงกันไว้ (text, date, time)
+    const urlParams = new URLSearchParams(window.location.search);
+    document.getElementById('view-text').innerText = urlParams.get('text') || '-';
+    document.getElementById('view-date').innerText = urlParams.get('date') || '-';
+    document.getElementById('view-time').innerText = urlParams.get('time') || '-';
+
+    // เช็กระบบปฏิบัติการเพื่อสลับรางดาวน์โหลด
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    const downloadBtn = document.getElementById('download-btn');
+
+    if (/android/i.test(userAgent)) {
+        // ฝั่ง Android วิ่งไป Play Store (รอเปลี่ยนลิงก์จริงวันหลัง)
+        downloadBtn.href = "https://play.google.com/store/apps/details?id=com.wirot.snapproof";
+    } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+        // ฝั่ง iOS ขึ้นเตือน Coming Soon
+        downloadBtn.href = "#";
+        downloadBtn.innerText = "เวอร์ชัน iPhone (เร็วๆ นี้)";
+        downloadBtn.style.backgroundColor = "#94a3b8";
+        downloadBtn.onclick = function() {
+            alert("หน้าเว็บนี้ใช้ตรวจสอบหลักฐานภาพได้ตามปกติ ส่วนตัวแอปเต็มฝั่ง iOS กำลังเร่งพัฒนาครับ");
+            return false;
+        };
+    }
+</script>
+
+</body>
+</html>
