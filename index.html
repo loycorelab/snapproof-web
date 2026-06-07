@@ -125,7 +125,7 @@
     </div>
 
     <div class="btn-group">
-        <a href="https://play.google.com/store/apps/details?id=com.wirot.snapproof" id="android-btn" class="btn btn-android">
+        <a href="https://play.google.com/store/apps/details?id=com.loycorelab.snapproof" id="android-btn" class="btn btn-android">
             Download จาก Play Store
         </a>
         <a href="#" id="ios-btn" class="btn btn-ios">
@@ -135,7 +135,7 @@
 </div>
 
 <script>
-    // ดึงค่าจาก URL มาแสดงผล (text, date, time)
+    // ดึงค่าจาก URL มาแสดงผลตรงๆ (text, date, time) รองรับฟอร์แมตเดิมของตัวแอป
     const urlParams = new URLSearchParams(window.location.search);
     document.getElementById('view-text').innerText = urlParams.get('text') || '-';
     document.getElementById('view-date').innerText = urlParams.get('date') || '-';
